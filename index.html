@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="英単語フラッシュカードで効率的に英語を学習。500以上の実用的な英単語を3Dフリップアニメーションで楽しく覚えよう。">
+    <title>英単語フラッシュカード | English Vocabulary Flashcards</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="header-inner">
+            <div class="logo" id="logo">
+                <span class="logo-icon">📚</span>
+                <span class="logo-text">FlashCard</span>
+            </div>
+            <div class="header-stats" id="headerStats">
+                <span class="stat-badge" id="progressBadge">
+                    <span class="stat-icon">📊</span>
+                    <span id="currentIndex">0</span> / <span id="totalWords">0</span>
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Setup Screen -->
+    <section class="setup-screen" id="setupScreen">
+        <div class="setup-container">
+            <div class="setup-hero">
+                <div class="hero-icon-wrapper">
+                    <div class="hero-icon">🎯</div>
+                </div>
+                <h1 class="setup-title">英単語フラッシュカード</h1>
+                <p class="setup-subtitle">実用的な英単語を楽しく効率的に学びましょう</p>
+            </div>
+
+            <div class="setup-card">
+                <div class="setup-section">
+                    <label class="setup-label" for="wordCountSelect">
+                        <span class="label-icon">🔢</span>
+                        学習する単語数を選んでください
+                    </label>
+                    <div class="word-count-options" id="wordCountOptions">
+                        <button class="count-option" data-count="10">10語<span class="count-desc">お試し</span></button>
+                        <button class="count-option" data-count="25">25語<span class="count-desc">軽め</span></button>
+                        <button class="count-option selected" data-count="50">50語<span class="count-desc">おすすめ</span></button>
+                        <button class="count-option" data-count="100">100語<span class="count-desc">しっかり</span></button>
+                        <button class="count-option" data-count="250">250語<span class="count-desc">挑戦</span></button>
+                        <button class="count-option" data-count="500">500語<span class="count-desc">上級</span></button>
+                    </div>
+                </div>
+
+                <div class="setup-section">
+                    <label class="setup-label">
+                        <span class="label-icon">🎲</span>
+                        出題順序
+                    </label>
+                    <div class="order-options" id="orderOptions">
+                        <button class="order-option selected" data-order="sequential">
+                            <span class="order-icon">📖</span>
+                            順番通り
+                        </button>
+                        <button class="order-option" data-order="random">
+                            <span class="order-icon">🔀</span>
+                            ランダム
+                        </button>
+                    </div>
+                </div>
+
+                <div class="setup-section">
+                    <label class="setup-label">
+                        <span class="label-icon">📚</span>
+                        難易度レベル
+                    </label>
+                    <div class="level-options" id="levelOptions">
+                        <button class="level-option selected" data-level="beginner">
+                            <span class="level-stars">⭐</span>
+                            初級
+                            <span class="level-desc">基礎単語</span>
+                        </button>
+                        <button class="level-option" data-level="intermediate">
+                            <span class="level-stars">⭐⭐</span>
+                            中級
+                            <span class="level-desc">日常会話</span>
+                        </button>
+                        <button class="level-option" data-level="advanced">
+                            <span class="level-stars">⭐⭐⭐</span>
+                            上級
+                            <span class="level-desc">ビジネス</span>
+                        </button>
+                        <button class="level-option" data-level="all">
+                            <span class="level-stars">🌟</span>
+                            すべて
+                            <span class="level-desc">全レベル</span>
+                        </button>
+                    </div>
+                </div>
+
+                <button class="start-button" id="startButton">
+                    <span class="start-text">学習をはじめる</span>
+                    <span class="start-arrow">→</span>
+                </button>
+            </div>
+
+            <div class="setup-footer">
+                <p class="total-available">収録単語数: <strong id="totalAvailable">0</strong>語</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Study Screen -->
+    <main class="study-screen hidden" id="studyScreen">
+        <!-- Progress bar -->
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <!-- Card Area -->
+        <div class="card-area" id="cardArea">
+            <div class="card-container" id="cardContainer">
+                <div class="flashcard" id="flashcard">
+                    <div class="card-face card-front" id="cardFront">
+                        <div class="card-number" id="cardNumber">#1</div>
+                        <div class="card-word" id="cardWord">hello</div>
+                        <div class="card-hint">タップしてめくる</div>
+                    </div>
+                    <div class="card-face card-back" id="cardBack">
+                        <div class="card-number card-number-back" id="cardNumberBack">#1</div>
+                        <div class="card-meaning" id="cardMeaning">こんにちは</div>
+                        <div class="card-divider"></div>
+                        <div class="card-example-label">Example</div>
+                        <div class="card-example" id="cardExample">Hello, how are you today?</div>
+                        <div class="card-hint card-hint-back">タップして戻る</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="nav-controls" id="navControls">
+            <button class="nav-button nav-prev" id="prevButton" aria-label="前の単語">
+                <span class="nav-icon">←</span>
+                <span class="nav-label">前へ</span>
+            </button>
+            <div class="nav-counter">
+                <span id="navCurrent">1</span> / <span id="navTotal">10</span>
+            </div>
+            <button class="nav-button nav-next" id="nextButton" aria-label="次の単語">
+                <span class="nav-label">次へ</span>
+                <span class="nav-icon">→</span>
+            </button>
+        </div>
+
+        <!-- Bottom actions -->
+        <div class="bottom-actions" id="bottomActions">
+            <button class="action-button" id="resetButton" aria-label="最初から">
+                <span class="action-icon">🔄</span>
+                <span>リセット</span>
+            </button>
+            <button class="action-button" id="shuffleButton" aria-label="シャッフル">
+                <span class="action-icon">🔀</span>
+                <span>シャッフル</span>
+            </button>
+            <button class="action-button" id="backToSetupButton" aria-label="設定に戻る">
+                <span class="action-icon">⚙️</span>
+                <span>設定</span>
+            </button>
+        </div>
+    </main>
+
+    <!-- Completion Modal -->
+    <div class="modal-overlay hidden" id="completionModal">
+        <div class="modal-content">
+            <div class="modal-icon">🎉</div>
+            <h2 class="modal-title">おめでとうございます！</h2>
+            <p class="modal-message"><span id="completedCount">0</span>語の学習が完了しました！</p>
+            <div class="modal-actions">
+                <button class="modal-button primary" id="restartButton">もう一度</button>
+                <button class="modal-button secondary" id="newSetupButton">設定を変更</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Keyboard shortcut hint -->
+    <div class="keyboard-hint" id="keyboardHint">
+        <span>← → キーで移動 ｜ スペースでフリップ</span>
+    </div>
+
+    <script src="words1.js"></script>
+    <script src="words2.js"></script>
+    <script src="words3.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
